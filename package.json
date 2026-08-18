@@ -1,0 +1,52 @@
+{
+  "name": "@gramaziokohler/antikythera-ts",
+  "version": "0.1.0",
+  "description": "Antikythera domain model, compas_pb plugin, and browser agent runtime for TypeScript",
+  "keywords": [
+    "antikythera",
+    "compas",
+    "protobuf",
+    "typescript",
+    "agents"
+  ],
+  "homepage": "https://github.com/gramaziokohler/antikythera_ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./agents": {
+      "import": "./dist/agents/index.js",
+      "types": "./dist/agents/index.d.ts"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "lint": "biome check",
+    "format": "biome format --write",
+    "test": "vitest run",
+    "proto": "node scripts/proto-fetch.mjs"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "^2.14.0",
+    "@gramaziokohler/compas-pb-ts": "^2.0.0",
+    "mqtt": "^5.10.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.3",
+    "@types/node": "^22.18.1",
+    "tsdown": "^0.15.12",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}
