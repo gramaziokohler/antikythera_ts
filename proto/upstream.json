@@ -1,5 +1,9 @@
 {
   "repository": "https://github.com/gramaziokohler/antikythera.git",
   "ref": "v0.1.0",
-  "generatorVersion": "2.14.0"
+  "package": "antikythera",
+  "generatorVersion": "2.14.0",
+  "rewriteImports": {
+    "./compas_pb/generated/": "@gramaziokohler/compas-pb-ts/proto/compas_pb/generated/"
+  }
 }
