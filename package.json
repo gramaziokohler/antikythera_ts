@@ -1,6 +1,6 @@
 {
   "name": "@gramaziokohler/antikythera-ts",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Antikythera domain model, compas_pb plugin, and browser agent runtime for TypeScript",
   "keywords": [
     "antikythera",
@@ -10,6 +10,13 @@
     "agents"
   ],
   "homepage": "https://github.com/gramaziokohler/antikythera_ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gramaziokohler/antikythera_ts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gramaziokohler/antikythera_ts/issues"
+  },
   "type": "module",
   "exports": {
     ".": {

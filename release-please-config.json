@@ -3,7 +3,8 @@
   "release-type": "node",
   "packages": {
     ".": {
-      "package-name": "@gramaziokohler/antikythera-ts"
+      "package-name": "@gramaziokohler/antikythera-ts",
+      "bump-minor-pre-major": true
     }
   }
 }
