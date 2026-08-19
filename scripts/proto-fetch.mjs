@@ -3,20 +3,17 @@
 // antikythera owns antikythera.proto and publishes bindings for every supported language
 // on each release; this package consumes the TypeScript one. It generates nothing itself.
 
-import { execFileSync } from "node:child_process";
 import {
-  cpSync,
-  existsSync,
   mkdirSync,
-  mkdtempSync,
   readFileSync,
-  readdirSync,
   rmSync,
   writeFileSync,
+  existsSync,
 } from "node:fs";
-import { tmpdir } from "node:os";
+import { readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { unzipSync } from "fflate";
 
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(scriptDirectory, "..");
@@ -27,22 +24,35 @@ const outputRoot = path.join(projectRoot, "src", "proto");
 const assetName = `antikythera-generated-typescript-${manifest.generatorVersion}.zip`;
 
 const args = parseArguments(process.argv.slice(2));
-const staging = mkdtempSync(path.join(tmpdir(), "antikythera-bindings-"));
+const archive = args.fromLocal
+  ? readFileSync(localArchive(args.fromLocal))
+  : await downloadArchive();
 
-try {
-  const archive = args.fromLocal
-    ? localArchive(args.fromLocal)
-    : await downloadArchive();
-  execFileSync("tar", ["-xf", archive, "-C", staging], { stdio: "inherit" });
+rmSync(outputRoot, { recursive: true, force: true });
+mkdirSync(outputRoot, { recursive: true });
+extractInto(archive, outputRoot);
+rewriteSharedImports(outputRoot);
 
-  rmSync(outputRoot, { recursive: true, force: true });
-  mkdirSync(outputRoot, { recursive: true });
-  cpSync(staging, outputRoot, { recursive: true });
+console.log(`Fetched ${assetName} from antikythera ${manifest.ref}.`);
 
-  rewriteSharedImports(outputRoot);
-  console.log(`Fetched ${assetName} from antikythera ${manifest.ref}.`);
-} finally {
-  rmSync(staging, { recursive: true, force: true });
+/**
+ * Unpacks the archive in-process.
+ *
+ * Shelling out is not portable here: the assets are zips, and GNU tar -- which is what
+ * Linux ships -- cannot read them, while `unzip` is missing from slim images.
+ */
+function extractInto(zipped, destination) {
+  for (const [name, contents] of Object.entries(unzipSync(zipped))) {
+    if (name.endsWith("/")) {
+      continue;
+    }
+    const target = path.join(destination, name);
+    if (!path.resolve(target).startsWith(path.resolve(destination))) {
+      throw new Error(`Refusing to extract outside the output folder: ${name}`);
+    }
+    mkdirSync(path.dirname(target), { recursive: true });
+    writeFileSync(target, contents);
+  }
 }
 
 /**
@@ -104,9 +114,7 @@ async function downloadArchive() {
         `  checkout instead: npm run proto -- --from-local ../antikythera`,
     );
   }
-  const archive = path.join(staging, assetName);
-  writeFileSync(archive, Buffer.from(await response.arrayBuffer()));
-  return archive;
+  return new Uint8Array(await response.arrayBuffer());
 }
 
 function parseArguments(argv) {
