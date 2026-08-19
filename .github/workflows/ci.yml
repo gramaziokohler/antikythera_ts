@@ -1,0 +1,46 @@
+name: ci
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile
+
+      # Biome
+      - uses: biomejs/setup-biome@v2
+      - run: biome ci .
+
+      # Generated-bindings drift: re-fetch the pinned release artifact and fail if the
+      # committed output differs. Nothing is generated here; antikythera publishes the
+      # bindings and compas-pb-fetch downloads them.
+      - run: pnpm proto
+      - run: git diff --exit-code src/proto
+
+      # Build
+      - run: pnpm build
+
+      # Tests
+      - run: pnpm test
