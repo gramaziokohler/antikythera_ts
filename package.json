@@ -35,6 +35,7 @@
   ],
   "scripts": {
     "build": "tsdown",
+    "dev": "tsdown --watch",
     "lint": "biome check",
     "format": "biome format --write",
     "test": "vitest run",

@@ -57,3 +57,44 @@ a vendored second copy of `compas_pb.data` would register a competing descriptor
 See the [architecture page](https://compas.dev/compas_pb/architecture/) in the compas_pb
 documentation for how domain-model owners, language runtimes and schema artifacts fit
 together.
+
+## Working on this package alongside the frontend
+
+The frontend consumes this package from npm. To have local changes show up there without
+publishing, link the checkout and run a watch build.
+
+```sh
+# once, in this repo
+npm link
+npm run dev            # rebuilds dist/ on every change
+
+# once, in antikythera-frontend
+npm link @gramaziokohler/antikythera-ts
+npm run dev            # http://localhost:5174
+```
+
+The frontend's Vite config excludes both SDKs from dependency pre-bundling, so a rebuild
+here shows up on reload rather than being served from Vite's cache.
+
+Two things to know:
+
+- `npm install` in the frontend replaces the link with the published version. Re-run
+  `npm link @gramaziokohler/antikythera-ts` afterwards.
+- Do not commit a `file:` dependency in the frontend. The link lives in `node_modules`
+  and leaves `package.json` alone, which is the point.
+
+### With the backend in Docker
+
+The frontend image is a production build served by nginx, and its build context does not
+include this package, so Docker is not the place for this loop. Run the services it needs
+and keep the frontend on the Vite dev server:
+
+```sh
+# in antikythera
+docker compose up -d mqtt-broker orchestrator redis
+```
+
+The dev server proxies `/api` to `localhost:8000`, and the browser reaches the broker at
+`ws://localhost:8083/mqtt`, both of which the compose file exposes. When you want to check
+the real image instead, `docker compose up --build frontend` builds it from the published
+package, exactly as CI would.
