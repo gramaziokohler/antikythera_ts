@@ -4,7 +4,8 @@
   "packages": {
     ".": {
       "package-name": "@gramaziokohler/antikythera-ts",
-      "bump-minor-pre-major": true
+      "bump-minor-pre-major": true,
+      "initial-version": "0.1.0"
     }
   }
 }
