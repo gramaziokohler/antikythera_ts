@@ -8,13 +8,13 @@ model, mapped to the same protobuf schemas, over the same wire.
 
 ## What is in here
 
-- **`src/models/tasks.ts`** — the domain model (`TaskAssignmentMessage`, `TaskCompletionMessage`, …),
+- **`src/models/tasks.ts`**: the domain model (`TaskAssignmentMessage`, `TaskCompletionMessage`, …),
   mirroring the `compas.data.Data` subclasses in `antikythera.models.tasks`.
-- **`src/models/conversions.ts`** — the `compas_pb` plugin, mirroring
+- **`src/models/conversions.ts`**: the `compas_pb` plugin, mirroring
   `antikythera.models.conversions`. Registers each domain class against its protobuf message.
-- **`src/agents/`** — the agent runtime: `Agent`, `AgentLauncher`, `Task`, `ExecutionContext`
-  and an MQTT transport.
-- **`src/proto/`** — generated bindings, fetched from an `antikythera` release. Nothing here
+- **`src/agents/`**: the agent runtime, holding `Agent`, `AgentLauncher`, `Task`,
+  `ExecutionContext` and an MQTT transport.
+- **`src/proto/`**: generated bindings, fetched from an `antikythera` release. Nothing here
   is generated locally.
 
 ## Registering the plugin
