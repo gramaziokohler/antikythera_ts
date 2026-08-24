@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.1](https://github.com/gramaziokohler/antikythera_ts/compare/antikythera-ts-v0.1.0...antikythera-ts-v0.1.1) (2026-08-24)
+
+
+### Bug Fixes
+
+* restore memorable agent ids ([66e1bd2](https://github.com/gramaziokohler/antikythera_ts/commit/66e1bd2cdf502f35e9d59dd039b75c6cbc7dcb91))
+* restore memorable agent ids ([e7be362](https://github.com/gramaziokohler/antikythera_ts/commit/e7be3626f49bb42753b3ca7854dfdf95192a9ed5))
+
 ## 0.1.0 (2026-08-19)
 
 
