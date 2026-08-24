@@ -164,3 +164,28 @@ describe("AgentLauncher", () => {
     expect(mqtt.sentOn("antikythera/task/completed")).toBeUndefined();
   });
 });
+
+describe("agent ids", () => {
+  it("are readable, in the shape the Python launcher produces", () => {
+    // e.g. "brave-red-panda-of-japan", matching coolname.generate_slug(4). Agents are
+    // identified by this in logs and in the UI, so a random string is not good enough.
+    const ids = Array.from({ length: 20 }, () =>
+      newLauncher(
+        new FakeMqttService(),
+        undefined as unknown as string,
+      ).getAgentId(),
+    );
+
+    for (const id of ids) {
+      expect(id).toMatch(/^[a-z]+-[a-z]+-[a-z]+-of-[a-z-]+$/);
+    }
+    // and not all the same
+    expect(new Set(ids).size).toBeGreaterThan(1);
+  });
+
+  it("accepts an explicit id", () => {
+    expect(newLauncher(new FakeMqttService(), "given-name").getAgentId()).toBe(
+      "given-name",
+    );
+  });
+});

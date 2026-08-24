@@ -1,4 +1,11 @@
 import { pbDump, pbLoadBytes } from "@gramaziokohler/compas-pb-ts";
+import {
+  adjectives,
+  animals,
+  colors,
+  countries,
+  uniqueNamesGenerator,
+} from "unique-names-generator";
 
 import {
   TaskAllocationMessage,
@@ -13,6 +20,38 @@ import type { Agent } from "./Agent";
 import type { MqttService } from "./MqttService";
 import { ExecutionContext } from "./ExecutionContext";
 import { Task } from "./Task";
+
+/**
+ * A readable agent id, of the same shape as the Python launcher's
+ * `coolname.generate_slug(4)`: "brave-red-panda-of-japan". Agents are identified by this
+ * in logs and in the UI, so it needs to be recognisable at a glance rather than unique.
+ */
+function slug(value: string): string {
+  // dictionary entries are not all plain words: countries bring dots, accents and
+  // apostrophes ("U.S. Outlying Islands", "Cote d'Ivoire", "Aland Islands")
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function memorableAgentId(): string {
+  const name = uniqueNamesGenerator({
+    dictionaries: [adjectives, colors, animals],
+    length: 3,
+    separator: "-",
+    style: "lowerCase",
+  });
+  const place = uniqueNamesGenerator({
+    dictionaries: [countries],
+    length: 1,
+    style: "lowerCase",
+  });
+
+  return `${slug(name)}-of-${slug(place)}`;
+}
 
 export class AgentLauncher {
   private static instance: AgentLauncher;
@@ -31,8 +70,7 @@ export class AgentLauncher {
     registerAntikytheraTypes();
 
     this.mqttService = mqttService;
-    this.agentId =
-      agentId ?? `agent-${Math.random().toString(36).slice(2, 10)}`;
+    this.agentId = agentId ?? memorableAgentId();
 
     console.log(`Initializing Agent Launcher ${this.agentId}`);
 
