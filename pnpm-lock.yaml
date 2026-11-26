@@ -12,8 +12,8 @@ importers:
         specifier: ^2.14.0
         version: 2.14.0
       '@gramaziokohler/compas-pb-ts':
-        specifier: ^3.0.0
-        version: 3.0.0
+        specifier: ^3.0.1
+        version: 3.0.1
       mqtt:
         specifier: ^5.10.0
         version: 5.15.2
@@ -423,8 +423,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@gramaziokohler/compas-pb-ts@3.0.0':
-    resolution: {integrity: sha512-ZF31fgsiNpWjV483VM1IATMb9TLm0tnOVwXVoklqAAMVIBUTFhCNA1Y9IUGeavavqqvLL4d+FLISGQYk7/ypFQ==}
+  '@gramaziokohler/compas-pb-ts@3.0.1':
+    resolution: {integrity: sha512-XergTV2KYvCLEjav1F5GFFAJyacE9AXN2IGzZM1lnrzXo5jlAjJC+30Y2lD/T+awiQ5evOLbTcUQ9GkgmwFvFQ==}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -1611,7 +1611,7 @@ snapshots:
   '@esbuild/win32-x64@0.28.2':
     optional: true
 
-  '@gramaziokohler/compas-pb-ts@3.0.0':
+  '@gramaziokohler/compas-pb-ts@3.0.1':
     dependencies:
       '@bufbuild/protobuf': 2.14.0
       fflate: 0.8.3
