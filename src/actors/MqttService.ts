@@ -1,7 +1,7 @@
 import mqtt from "mqtt";
 
 /**
- * Same-origin broker URL, derived from the page the agent is running in.
+ * Same-origin broker URL, derived from the page the actor is running in.
  *
  * This is a library now, so it cannot read the host application's build-time environment.
  * An application that points at a different broker passes the URL to `getInstance`.

@@ -1,7 +1,7 @@
 import type { TaskAssignmentMessage } from "../models/tasks";
 
 /**
- * A task as an agent sees it.
+ * A task as an actor sees it.
  *
  * A thin view over the domain message: decoding happened in the conversions plugin, so
  * `inputs`, `params` and `context` are already plain JavaScript values, and geometry

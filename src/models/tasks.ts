@@ -45,7 +45,7 @@ export class TaskAssignmentMessage {
   /**
    * The params as they arrived on the wire, undecoded.
    *
-   * A simulated output forwarded by the stand-in agent must be echoed back byte for byte:
+   * A simulated output forwarded by the stand-in actor must be echoed back byte for byte:
    * a param is not necessarily a container or a primitive by the time it gets here, since
    * compas_pb may have serialized it with a native message type this package has no reason
    * to understand.
@@ -77,28 +77,28 @@ export class TaskAssignmentMessage {
 
 export class TaskClaimRequest {
   readonly taskId: string;
-  readonly agentId: string;
+  readonly actorId: string;
   readonly timestamp: Date;
 
-  constructor(input: { taskId: string; agentId: string; timestamp?: Date }) {
+  constructor(input: { taskId: string; actorId: string; timestamp?: Date }) {
     this.taskId = input.taskId;
-    this.agentId = input.agentId;
+    this.actorId = input.actorId;
     this.timestamp = input.timestamp ?? new Date();
   }
 }
 
 export class TaskAllocationMessage {
   readonly taskId: string;
-  readonly assignedAgentId: string;
+  readonly assignedActorId: string;
   readonly timestamp: Date;
 
   constructor(input: {
     taskId: string;
-    assignedAgentId: string;
+    assignedActorId: string;
     timestamp?: Date;
   }) {
     this.taskId = input.taskId;
-    this.assignedAgentId = input.assignedAgentId;
+    this.assignedActorId = input.assignedActorId;
     this.timestamp = input.timestamp ?? new Date();
   }
 }
@@ -106,7 +106,7 @@ export class TaskAllocationMessage {
 export class TaskCompletionMessage {
   readonly id: string;
   readonly state: TaskState;
-  readonly agentId: string;
+  readonly actorId: string;
   readonly outputs: Record<string, unknown>;
   readonly error?: TaskError;
   readonly timestamp: Date;
@@ -115,7 +115,7 @@ export class TaskCompletionMessage {
   constructor(input: {
     id: string;
     state: TaskState;
-    agentId: string;
+    actorId: string;
     outputs?: Record<string, unknown>;
     error?: TaskError;
     timestamp?: Date;
@@ -123,7 +123,7 @@ export class TaskCompletionMessage {
   }) {
     this.id = input.id;
     this.state = input.state;
-    this.agentId = input.agentId;
+    this.actorId = input.actorId;
     this.outputs = input.outputs ?? {};
     this.error = input.error;
     this.timestamp = input.timestamp ?? new Date();
@@ -134,18 +134,18 @@ export class TaskCompletionMessage {
 export class TaskCompletionAckMessage {
   readonly id: string;
   readonly state: TaskState;
-  readonly acceptedAgentId: string;
+  readonly acceptedActorId: string;
   readonly timestamp: Date;
 
   constructor(input: {
     id: string;
     state: TaskState;
-    acceptedAgentId: string;
+    acceptedActorId: string;
     timestamp?: Date;
   }) {
     this.id = input.id;
     this.state = input.state;
-    this.acceptedAgentId = input.acceptedAgentId;
+    this.acceptedActorId = input.acceptedActorId;
     this.timestamp = input.timestamp ?? new Date();
   }
 }

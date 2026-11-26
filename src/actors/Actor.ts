@@ -6,24 +6,24 @@ export type ToolFunction = (
   context?: ExecutionContext,
 ) => Promise<any>;
 
-export interface Agent {
+export interface Actor {
   /**
-   * The type of the agent.
-   * Used for matching task types: "{agent.type}.{tool_name}"
+   * The type of the actor.
+   * Used for matching task types: "{actor.type}.{tool_name}"
    */
   type: string;
 
   /**
-   * Optional predicate: does this agent handle the given tool name (the part of the task
-   * type after "{agent.type}."). Defaults to `typeof agent[toolName] === 'function'` when
-   * omitted. Implement this instead for an agent that claims every tool under its prefix
-   * rather than one method per tool (e.g. a stand-in agent).
+   * Optional predicate: does this actor handle the given tool name (the part of the task
+   * type after "{actor.type}."). Defaults to `typeof actor[toolName] === 'function'` when
+   * omitted. Implement this instead for an actor that claims every tool under its prefix
+   * rather than one method per tool (e.g. a stand-in actor).
    */
   canHandleTool?(toolName: string): boolean;
 
   /**
-   * Optional generic tool invocation, used in place of calling `agent[toolName](task, context)`
-   * when no method named after the tool exists on the agent. Required if `canHandleTool` is
+   * Optional generic tool invocation, used in place of calling `actor[toolName](task, context)`
+   * when no method named after the tool exists on the actor. Required if `canHandleTool` is
    * implemented and no per-tool methods exist.
    */
   invokeTool?(

@@ -14,10 +14,10 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file antikythera.proto.
  */
 export const file_antikythera: GenFile = /*@__PURE__*/
-  fileDesc("ChFhbnRpa3l0aGVyYS5wcm90bxIOYW50aWt5dGhlcmEudjEi0AQKFVRhc2tBc3NpZ25tZW50TWVzc2FnZRIKCgJpZBgBIAEoCRIMCgR0eXBlGAIgASgJEkEKBmlucHV0cxgDIAMoCzIxLmFudGlreXRoZXJhLnYxLlRhc2tBc3NpZ25tZW50TWVzc2FnZS5JbnB1dHNFbnRyeRITCgtvdXRwdXRfa2V5cxgEIAMoCRJBCgZwYXJhbXMYBSADKAsyMS5hbnRpa3l0aGVyYS52MS5UYXNrQXNzaWdubWVudE1lc3NhZ2UuUGFyYW1zRW50cnkSLQoJdGltZXN0YW1wGAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBI1Cg5leGVjdXRpb25fbW9kZRgHIAEoDjIdLmFudGlreXRoZXJhLnYxLkV4ZWN1dGlvbk1vZGUSQwoHY29udGV4dBgIIAMoCzIyLmFudGlreXRoZXJhLnYxLlRhc2tBc3NpZ25tZW50TWVzc2FnZS5Db250ZXh0RW50cnkaRgoLSW5wdXRzRW50cnkSCwoDa2V5GAEgASgJEiYKBXZhbHVlGAIgASgLMhcuY29tcGFzX3BiLmRhdGEuQW55RGF0YToCOAEaRgoLUGFyYW1zRW50cnkSCwoDa2V5GAEgASgJEiYKBXZhbHVlGAIgASgLMhcuY29tcGFzX3BiLmRhdGEuQW55RGF0YToCOAEaRwoMQ29udGV4dEVudHJ5EgsKA2tleRgBIAEoCRImCgV2YWx1ZRgCIAEoCzIXLmNvbXBhc19wYi5kYXRhLkFueURhdGE6AjgBImQKEFRhc2tDbGFpbVJlcXVlc3QSDwoHdGFza19pZBgBIAEoCRIQCghhZ2VudF9pZBgCIAEoCRItCgl0aW1lc3RhbXAYAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wInIKFVRhc2tBbGxvY2F0aW9uTWVzc2FnZRIPCgd0YXNrX2lkGAEgASgJEhkKEWFzc2lnbmVkX2FnZW50X2lkGAIgASgJEi0KCXRpbWVzdGFtcBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAitwEKF1Rhc2tTdGF0dXNVcGRhdGVNZXNzYWdlEgoKAmlkGAEgASgJEigKBXN0YXRlGAIgASgOMhkuYW50aWt5dGhlcmEudjEuVGFza1N0YXRlEhAKCGFnZW50X2lkGAMgASgJEiUKBGRhdGEYBCABKAsyFy5jb21wYXNfcGIuZGF0YS5BbnlEYXRhEi0KCXRpbWVzdGFtcBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAi2wIKFVRhc2tDb21wbGV0aW9uTWVzc2FnZRIKCgJpZBgBIAEoCRIoCgVzdGF0ZRgCIAEoDjIZLmFudGlreXRoZXJhLnYxLlRhc2tTdGF0ZRIQCghhZ2VudF9pZBgDIAEoCRJDCgdvdXRwdXRzGAQgAygLMjIuYW50aWt5dGhlcmEudjEuVGFza0NvbXBsZXRpb25NZXNzYWdlLk91dHB1dHNFbnRyeRIoCgVlcnJvchgFIAEoCzIZLmFudGlreXRoZXJhLnYxLlRhc2tFcnJvchItCgl0aW1lc3RhbXAYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEhMKC2R1cmF0aW9uX21zGAcgASgEGkcKDE91dHB1dHNFbnRyeRILCgNrZXkYASABKAkSJgoFdmFsdWUYAiABKAsyFy5jb21wYXNfcGIuZGF0YS5BbnlEYXRhOgI4ASKaAQoYVGFza0NvbXBsZXRpb25BY2tNZXNzYWdlEgoKAmlkGAEgASgJEigKBXN0YXRlGAIgASgOMhkuYW50aWt5dGhlcmEudjEuVGFza1N0YXRlEhkKEWFjY2VwdGVkX2FnZW50X2lkGAMgASgJEi0KCXRpbWVzdGFtcBgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAiVAoJVGFza0Vycm9yEgwKBGNvZGUYASABKAkSDwoHbWVzc2FnZRgCIAEoCRIoCgdkZXRhaWxzGAMgASgLMhcuY29tcGFzX3BiLmRhdGEuQW55RGF0YSpNCg1FeGVjdXRpb25Nb2RlEhwKGEVYRUNVVElPTl9NT0RFX0VYQ0xVU0lWRRAAEh4KGkVYRUNVVElPTl9NT0RFX0NPTVBFVElUSVZFEAEqngEKCVRhc2tTdGF0ZRIaChZUQVNLX1NUQVRFX1VOU1BFQ0lGSUVEEAASFgoSVEFTS19TVEFURV9QRU5ESU5HEAESFAoQVEFTS19TVEFURV9SRUFEWRACEhYKElRBU0tfU1RBVEVfUlVOTklORxADEhgKFFRBU0tfU1RBVEVfU1VDQ0VFREVEEAQSFQoRVEFTS19TVEFURV9GQUlMRUQQBWIGcHJvdG8z", [file_google_protobuf_timestamp, file_compas_pb_generated_message]);
+  fileDesc("ChFhbnRpa3l0aGVyYS5wcm90bxIOYW50aWt5dGhlcmEudjEi0AQKFVRhc2tBc3NpZ25tZW50TWVzc2FnZRIKCgJpZBgBIAEoCRIMCgR0eXBlGAIgASgJEkEKBmlucHV0cxgDIAMoCzIxLmFudGlreXRoZXJhLnYxLlRhc2tBc3NpZ25tZW50TWVzc2FnZS5JbnB1dHNFbnRyeRITCgtvdXRwdXRfa2V5cxgEIAMoCRJBCgZwYXJhbXMYBSADKAsyMS5hbnRpa3l0aGVyYS52MS5UYXNrQXNzaWdubWVudE1lc3NhZ2UuUGFyYW1zRW50cnkSLQoJdGltZXN0YW1wGAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBI1Cg5leGVjdXRpb25fbW9kZRgHIAEoDjIdLmFudGlreXRoZXJhLnYxLkV4ZWN1dGlvbk1vZGUSQwoHY29udGV4dBgIIAMoCzIyLmFudGlreXRoZXJhLnYxLlRhc2tBc3NpZ25tZW50TWVzc2FnZS5Db250ZXh0RW50cnkaRgoLSW5wdXRzRW50cnkSCwoDa2V5GAEgASgJEiYKBXZhbHVlGAIgASgLMhcuY29tcGFzX3BiLmRhdGEuQW55RGF0YToCOAEaRgoLUGFyYW1zRW50cnkSCwoDa2V5GAEgASgJEiYKBXZhbHVlGAIgASgLMhcuY29tcGFzX3BiLmRhdGEuQW55RGF0YToCOAEaRwoMQ29udGV4dEVudHJ5EgsKA2tleRgBIAEoCRImCgV2YWx1ZRgCIAEoCzIXLmNvbXBhc19wYi5kYXRhLkFueURhdGE6AjgBImQKEFRhc2tDbGFpbVJlcXVlc3QSDwoHdGFza19pZBgBIAEoCRIQCghhY3Rvcl9pZBgCIAEoCRItCgl0aW1lc3RhbXAYAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wInIKFVRhc2tBbGxvY2F0aW9uTWVzc2FnZRIPCgd0YXNrX2lkGAEgASgJEhkKEWFzc2lnbmVkX2FjdG9yX2lkGAIgASgJEi0KCXRpbWVzdGFtcBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAitwEKF1Rhc2tTdGF0dXNVcGRhdGVNZXNzYWdlEgoKAmlkGAEgASgJEigKBXN0YXRlGAIgASgOMhkuYW50aWt5dGhlcmEudjEuVGFza1N0YXRlEhAKCGFjdG9yX2lkGAMgASgJEiUKBGRhdGEYBCABKAsyFy5jb21wYXNfcGIuZGF0YS5BbnlEYXRhEi0KCXRpbWVzdGFtcBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAi2wIKFVRhc2tDb21wbGV0aW9uTWVzc2FnZRIKCgJpZBgBIAEoCRIoCgVzdGF0ZRgCIAEoDjIZLmFudGlreXRoZXJhLnYxLlRhc2tTdGF0ZRIQCghhY3Rvcl9pZBgDIAEoCRJDCgdvdXRwdXRzGAQgAygLMjIuYW50aWt5dGhlcmEudjEuVGFza0NvbXBsZXRpb25NZXNzYWdlLk91dHB1dHNFbnRyeRIoCgVlcnJvchgFIAEoCzIZLmFudGlreXRoZXJhLnYxLlRhc2tFcnJvchItCgl0aW1lc3RhbXAYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEhMKC2R1cmF0aW9uX21zGAcgASgEGkcKDE91dHB1dHNFbnRyeRILCgNrZXkYASABKAkSJgoFdmFsdWUYAiABKAsyFy5jb21wYXNfcGIuZGF0YS5BbnlEYXRhOgI4ASKaAQoYVGFza0NvbXBsZXRpb25BY2tNZXNzYWdlEgoKAmlkGAEgASgJEigKBXN0YXRlGAIgASgOMhkuYW50aWt5dGhlcmEudjEuVGFza1N0YXRlEhkKEWFjY2VwdGVkX2FjdG9yX2lkGAMgASgJEi0KCXRpbWVzdGFtcBgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAiVAoJVGFza0Vycm9yEgwKBGNvZGUYASABKAkSDwoHbWVzc2FnZRgCIAEoCRIoCgdkZXRhaWxzGAMgASgLMhcuY29tcGFzX3BiLmRhdGEuQW55RGF0YSpNCg1FeGVjdXRpb25Nb2RlEhwKGEVYRUNVVElPTl9NT0RFX0VYQ0xVU0lWRRAAEh4KGkVYRUNVVElPTl9NT0RFX0NPTVBFVElUSVZFEAEqngEKCVRhc2tTdGF0ZRIaChZUQVNLX1NUQVRFX1VOU1BFQ0lGSUVEEAASFgoSVEFTS19TVEFURV9QRU5ESU5HEAESFAoQVEFTS19TVEFURV9SRUFEWRACEhYKElRBU0tfU1RBVEVfUlVOTklORxADEhgKFFRBU0tfU1RBVEVfU1VDQ0VFREVEEAQSFQoRVEFTS19TVEFURV9GQUlMRUQQBWIGcHJvdG8z", [file_google_protobuf_timestamp, file_compas_pb_generated_message]);
 
 /**
- * Task assignment message sent by orchestrator to agents
+ * Task assignment message sent by orchestrator to actors
  *
  * @generated from message antikythera.v1.TaskAssignmentMessage
  */
@@ -30,7 +30,7 @@ export type TaskAssignmentMessage = Message<"antikythera.v1.TaskAssignmentMessag
   id: string;
 
   /**
-   * Required: task type (determines which agent handles it)
+   * Required: task type (determines which actor handles it)
    *
    * @generated from field: string type = 2;
    */
@@ -89,7 +89,7 @@ export const TaskAssignmentMessageSchema: GenMessage<TaskAssignmentMessage> = /*
   messageDesc(file_antikythera, 0);
 
 /**
- * Task claim request sent by agents to orchestrator
+ * Task claim request sent by actors to orchestrator
  *
  * @generated from message antikythera.v1.TaskClaimRequest
  */
@@ -102,11 +102,11 @@ export type TaskClaimRequest = Message<"antikythera.v1.TaskClaimRequest"> & {
   taskId: string;
 
   /**
-   * Required: agent identifier
+   * Required: actor identifier
    *
-   * @generated from field: string agent_id = 2;
+   * @generated from field: string actor_id = 2;
    */
-  agentId: string;
+  actorId: string;
 
   /**
    * Optional: claim timestamp
@@ -137,11 +137,11 @@ export type TaskAllocationMessage = Message<"antikythera.v1.TaskAllocationMessag
   taskId: string;
 
   /**
-   * Required: agent identifier allocated to the task
+   * Required: actor identifier allocated to the task
    *
-   * @generated from field: string assigned_agent_id = 2;
+   * @generated from field: string assigned_actor_id = 2;
    */
-  assignedAgentId: string;
+  assignedActorId: string;
 
   /**
    * Optional: allocation timestamp
@@ -159,7 +159,7 @@ export const TaskAllocationMessageSchema: GenMessage<TaskAllocationMessage> = /*
   messageDesc(file_antikythera, 2);
 
 /**
- * Task status update sent by agents when they start executing a task
+ * Task status update sent by actors when they start executing a task
  *
  * @generated from message antikythera.v1.TaskStatusUpdateMessage
  */
@@ -179,11 +179,11 @@ export type TaskStatusUpdateMessage = Message<"antikythera.v1.TaskStatusUpdateMe
   state: TaskState;
 
   /**
-   * Required: agent claiming or running the task
+   * Required: actor claiming or running the task
    *
-   * @generated from field: string agent_id = 3;
+   * @generated from field: string actor_id = 3;
    */
-  agentId: string;
+  actorId: string;
 
   /**
    * Optional: any additional status data (e.g., progress)
@@ -208,7 +208,7 @@ export const TaskStatusUpdateMessageSchema: GenMessage<TaskStatusUpdateMessage> 
   messageDesc(file_antikythera, 3);
 
 /**
- * Task completion message sent by agents to orchestrator
+ * Task completion message sent by actors to orchestrator
  *
  * @generated from message antikythera.v1.TaskCompletionMessage
  */
@@ -228,11 +228,11 @@ export type TaskCompletionMessage = Message<"antikythera.v1.TaskCompletionMessag
   state: TaskState;
 
   /**
-   * Required: agent identifier who completed the task
+   * Required: actor identifier who completed the task
    *
-   * @generated from field: string agent_id = 3;
+   * @generated from field: string actor_id = 3;
    */
-  agentId: string;
+  actorId: string;
 
   /**
    * Optional: task outputs (only for succeeded tasks)
@@ -292,11 +292,11 @@ export type TaskCompletionAckMessage = Message<"antikythera.v1.TaskCompletionAck
   state: TaskState;
 
   /**
-   * Optional: agent whose completion was accepted
+   * Optional: actor whose completion was accepted
    *
-   * @generated from field: string accepted_agent_id = 3;
+   * @generated from field: string accepted_actor_id = 3;
    */
-  acceptedAgentId: string;
+  acceptedActorId: string;
 
   /**
    * Optional: time the orchestrator processed the completion
@@ -347,14 +347,14 @@ export const TaskErrorSchema: GenMessage<TaskError> = /*@__PURE__*/
  */
 export enum ExecutionMode {
   /**
-   * Default: Only one agent is allocated the task
+   * Default: Only one actor is allocated the task
    *
    * @generated from enum value: EXECUTION_MODE_EXCLUSIVE = 0;
    */
   EXCLUSIVE = 0,
 
   /**
-   * Multiple agents can run, first to finish wins
+   * Multiple actors can run, first to finish wins
    *
    * @generated from enum value: EXECUTION_MODE_COMPETITIVE = 1;
    */

@@ -9,8 +9,8 @@ import {
   TaskState,
   registerAntikytheraTypes,
 } from "../src";
-import { AgentLauncher, type Agent } from "../src/agents";
-import type { Task } from "../src/agents";
+import { ActorLauncher, type Actor } from "../src/actors";
+import type { Task } from "../src/actors";
 
 /** Captures what the launcher publishes, and lets a test push messages at it. */
 class FakeMqttService {
@@ -45,23 +45,23 @@ class FakeMqttService {
 }
 
 // getInstance is a singleton, so each test drives its own instance directly.
-function newLauncher(mqtt: FakeMqttService, agentId: string) {
+function newLauncher(mqtt: FakeMqttService, actorId: string) {
   return new (
-    AgentLauncher as unknown as new (
+    ActorLauncher as unknown as new (
       mqtt: unknown,
-      agentId: string,
-    ) => AgentLauncher
-  )(mqtt, agentId);
+      actorId: string,
+    ) => ActorLauncher
+  )(mqtt, actorId);
 }
 
-describe("AgentLauncher", () => {
+describe("ActorLauncher", () => {
   let mqtt: FakeMqttService;
-  let launcher: AgentLauncher;
+  let launcher: ActorLauncher;
 
   beforeEach(() => {
     registerAntikytheraTypes();
     mqtt = new FakeMqttService();
-    launcher = newLauncher(mqtt, "agent-under-test");
+    launcher = newLauncher(mqtt, "actor-under-test");
   });
 
   const assignment = (id: string, type: string, params = {}) =>
@@ -69,34 +69,34 @@ describe("AgentLauncher", () => {
       new TaskAssignmentMessage({ id, type, params, outputKeys: ["result"] }),
     );
 
-  it("claims a task whose type matches a registered agent", () => {
-    launcher.registerAgent({
+  it("claims a task whose type matches a registered actor", () => {
+    launcher.registerActor({
       type: "demo",
       async tool() {
         return {};
       },
-    } as unknown as Agent);
+    } as unknown as Actor);
 
     mqtt.deliver("antikythera/task/start", assignment("task-1", "demo.tool"));
 
     const claim = mqtt.sentOn("antikythera/task/claim");
     expect(claim).toBeInstanceOf(TaskClaimRequest);
     expect(claim.taskId).toBe("task-1");
-    expect(claim.agentId).toBe("agent-under-test");
+    expect(claim.actorId).toBe("actor-under-test");
   });
 
-  it("ignores a task no registered agent handles", () => {
+  it("ignores a task no registered actor handles", () => {
     mqtt.deliver("antikythera/task/start", assignment("task-1", "nobody.tool"));
     expect(mqtt.published).toHaveLength(0);
   });
 
   it("executes on allocation and publishes the tool's outputs", async () => {
-    launcher.registerAgent({
+    launcher.registerActor({
       type: "demo",
       async tool(task: Task) {
         return { result: `ran ${task.id}`, count: 2 };
       },
-    } as unknown as Agent);
+    } as unknown as Actor);
 
     mqtt.deliver("antikythera/task/start", assignment("task-2", "demo.tool"));
     mqtt.deliver(
@@ -104,7 +104,7 @@ describe("AgentLauncher", () => {
       pbDump(
         new TaskAllocationMessage({
           taskId: "task-2",
-          assignedAgentId: "agent-under-test",
+          assignedActorId: "actor-under-test",
         }),
       ),
     );
@@ -117,12 +117,12 @@ describe("AgentLauncher", () => {
   });
 
   it("reports a failed state when the tool throws", async () => {
-    launcher.registerAgent({
+    launcher.registerActor({
       type: "demo",
       async tool() {
         throw new Error("boom");
       },
-    } as unknown as Agent);
+    } as unknown as Actor);
 
     mqtt.deliver("antikythera/task/start", assignment("task-3", "demo.tool"));
     mqtt.deliver(
@@ -130,7 +130,7 @@ describe("AgentLauncher", () => {
       pbDump(
         new TaskAllocationMessage({
           taskId: "task-3",
-          assignedAgentId: "agent-under-test",
+          assignedActorId: "actor-under-test",
         }),
       ),
     );
@@ -141,13 +141,13 @@ describe("AgentLauncher", () => {
     );
   });
 
-  it("does not execute a task allocated to a different agent", async () => {
-    launcher.registerAgent({
+  it("does not execute a task allocated to a different actor", async () => {
+    launcher.registerActor({
       type: "demo",
       async tool() {
         return {};
       },
-    } as unknown as Agent);
+    } as unknown as Actor);
 
     mqtt.deliver("antikythera/task/start", assignment("task-4", "demo.tool"));
     mqtt.deliver(
@@ -155,7 +155,7 @@ describe("AgentLauncher", () => {
       pbDump(
         new TaskAllocationMessage({
           taskId: "task-4",
-          assignedAgentId: "someone-else",
+          assignedActorId: "someone-else",
         }),
       ),
     );
@@ -165,15 +165,15 @@ describe("AgentLauncher", () => {
   });
 });
 
-describe("agent ids", () => {
+describe("actor ids", () => {
   it("are readable, in the shape the Python launcher produces", () => {
-    // e.g. "brave-red-panda-of-japan", matching coolname.generate_slug(4). Agents are
+    // e.g. "brave-red-panda-of-japan", matching coolname.generate_slug(4). Actors are
     // identified by this in logs and in the UI, so a random string is not good enough.
     const ids = Array.from({ length: 20 }, () =>
       newLauncher(
         new FakeMqttService(),
         undefined as unknown as string,
-      ).getAgentId(),
+      ).getActorId(),
     );
 
     for (const id of ids) {
@@ -184,7 +184,7 @@ describe("agent ids", () => {
   });
 
   it("accepts an explicit id", () => {
-    expect(newLauncher(new FakeMqttService(), "given-name").getAgentId()).toBe(
+    expect(newLauncher(new FakeMqttService(), "given-name").getActorId()).toBe(
       "given-name",
     );
   });
