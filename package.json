@@ -1,13 +1,13 @@
 {
   "name": "@gramaziokohler/antikythera-ts",
   "version": "0.1.1",
-  "description": "Antikythera domain model, compas_pb plugin, and browser agent runtime for TypeScript",
+  "description": "Antikythera domain model, compas_pb plugin, and browser actor runtime for TypeScript",
   "keywords": [
     "antikythera",
     "compas",
     "protobuf",
     "typescript",
-    "agents"
+    "actors"
   ],
   "homepage": "https://github.com/gramaziokohler/antikythera_ts",
   "repository": {
@@ -23,9 +23,9 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./agents": {
-      "import": "./dist/agents/index.js",
-      "types": "./dist/agents/index.d.ts"
+    "./actors": {
+      "import": "./dist/actors/index.js",
+      "types": "./dist/actors/index.d.ts"
     }
   },
   "types": "./dist/index.d.ts",
@@ -67,7 +67,7 @@
       "limit": "200 KB"
     },
     {
-      "path": "dist/agents/index.js",
+      "path": "dist/actors/index.js",
       "limit": "200 KB"
     }
   ]

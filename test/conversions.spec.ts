@@ -63,7 +63,7 @@ describe("Antikythera types on the compas_pb wire", () => {
     const completion = new TaskCompletionMessage({
       id: "task-2",
       state: TaskState.FAILED,
-      agentId: "agent-a",
+      actorId: "actor-a",
       outputs: { partial: [1, 2] },
       error: new TaskError({
         code: "SCOPE_CONDITION_ERROR",
@@ -77,7 +77,7 @@ describe("Antikythera types on the compas_pb wire", () => {
 
     expect(loaded).toBeInstanceOf(TaskCompletionMessage);
     expect(loaded.state).toBe(TaskState.FAILED);
-    expect(loaded.agentId).toBe("agent-a");
+    expect(loaded.actorId).toBe("actor-a");
     expect(loaded.outputs).toEqual({ partial: [1, 2] });
     expect(loaded.error?.code).toBe("SCOPE_CONDITION_ERROR");
     expect(loaded.error?.details).toEqual({ where: "condition", index: 2 });
@@ -86,37 +86,37 @@ describe("Antikythera types on the compas_pb wire", () => {
 
   it("round-trips the small control messages", () => {
     const claim = pbLoadBytes(
-      pbDump(new TaskClaimRequest({ taskId: "t-1", agentId: "a-1" })),
+      pbDump(new TaskClaimRequest({ taskId: "t-1", actorId: "a-1" })),
     );
     expect(claim).toBeInstanceOf(TaskClaimRequest);
-    expect([claim.taskId, claim.agentId]).toEqual(["t-1", "a-1"]);
+    expect([claim.taskId, claim.actorId]).toEqual(["t-1", "a-1"]);
 
     const allocation = pbLoadBytes(
       pbDump(
-        new TaskAllocationMessage({ taskId: "t-1", assignedAgentId: "a-1" }),
+        new TaskAllocationMessage({ taskId: "t-1", assignedActorId: "a-1" }),
       ),
     );
     expect(allocation).toBeInstanceOf(TaskAllocationMessage);
-    expect(allocation.assignedAgentId).toBe("a-1");
+    expect(allocation.assignedActorId).toBe("a-1");
 
     const ack = pbLoadBytes(
       pbDump(
         new TaskCompletionAckMessage({
           id: "t-1",
           state: TaskState.SUCCEEDED,
-          acceptedAgentId: "a-2",
+          acceptedActorId: "a-2",
         }),
       ),
     );
     expect(ack).toBeInstanceOf(TaskCompletionAckMessage);
     expect(ack.state).toBe(TaskState.SUCCEEDED);
-    expect(ack.acceptedAgentId).toBe("a-2");
+    expect(ack.acceptedActorId).toBe("a-2");
   });
 
   it("preserves timestamps to the second", () => {
     const timestamp = new Date("2026-08-19T10:30:00.000Z");
     const loaded = pbLoadBytes(
-      pbDump(new TaskClaimRequest({ taskId: "t", agentId: "a", timestamp })),
+      pbDump(new TaskClaimRequest({ taskId: "t", actorId: "a", timestamp })),
     );
     expect(loaded.timestamp.toISOString()).toBe(timestamp.toISOString());
   });
@@ -133,7 +133,7 @@ describe("Antikythera types on the compas_pb wire", () => {
         new TaskCompletionMessage({
           id: "t",
           state: TaskState.SUCCEEDED,
-          agentId: "a",
+          actorId: "a",
           outputs: { frame },
         }),
       ),

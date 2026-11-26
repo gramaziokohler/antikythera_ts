@@ -119,7 +119,7 @@ export function registerAntikytheraTypes(): void {
         pb.TaskClaimRequestSchema,
         create(pb.TaskClaimRequestSchema, {
           taskId: message.taskId,
-          agentId: message.agentId,
+          actorId: message.actorId,
           timestamp: timestampFromDate(message.timestamp),
         }),
       ),
@@ -127,7 +127,7 @@ export function registerAntikytheraTypes(): void {
       const decoded = fromBinary(pb.TaskClaimRequestSchema, bytes);
       return new TaskClaimRequest({
         taskId: decoded.taskId,
-        agentId: decoded.agentId,
+        actorId: decoded.actorId,
         timestamp: decoded.timestamp
           ? timestampDate(decoded.timestamp)
           : undefined,
@@ -141,7 +141,7 @@ export function registerAntikytheraTypes(): void {
         pb.TaskAllocationMessageSchema,
         create(pb.TaskAllocationMessageSchema, {
           taskId: message.taskId,
-          assignedAgentId: message.assignedAgentId,
+          assignedActorId: message.assignedActorId,
           timestamp: timestampFromDate(message.timestamp),
         }),
       ),
@@ -149,7 +149,7 @@ export function registerAntikytheraTypes(): void {
       const decoded = fromBinary(pb.TaskAllocationMessageSchema, bytes);
       return new TaskAllocationMessage({
         taskId: decoded.taskId,
-        assignedAgentId: decoded.assignedAgentId,
+        assignedActorId: decoded.assignedActorId,
         timestamp: decoded.timestamp
           ? timestampDate(decoded.timestamp)
           : undefined,
@@ -164,7 +164,7 @@ export function registerAntikytheraTypes(): void {
         create(pb.TaskCompletionMessageSchema, {
           id: message.id,
           state: TASK_STATE_TO_PB[message.state],
-          agentId: message.agentId,
+          actorId: message.actorId,
           outputs: serializeMap(message.outputs),
           error: message.error
             ? create(pb.TaskErrorSchema, {
@@ -185,7 +185,7 @@ export function registerAntikytheraTypes(): void {
       return new TaskCompletionMessage({
         id: decoded.id,
         state: TASK_STATE_FROM_PB.get(decoded.state) ?? TaskState.UNSPECIFIED,
-        agentId: decoded.agentId,
+        actorId: decoded.actorId,
         outputs: decodeMap(decoded.outputs),
         error: decoded.error
           ? new TaskError({
@@ -214,7 +214,7 @@ export function registerAntikytheraTypes(): void {
           create(pb.TaskCompletionAckMessageSchema, {
             id: message.id,
             state: TASK_STATE_TO_PB[message.state],
-            acceptedAgentId: message.acceptedAgentId,
+            acceptedActorId: message.acceptedActorId,
             timestamp: timestampFromDate(message.timestamp),
           }),
         ),
@@ -223,7 +223,7 @@ export function registerAntikytheraTypes(): void {
         return new TaskCompletionAckMessage({
           id: decoded.id,
           state: TASK_STATE_FROM_PB.get(decoded.state) ?? TaskState.UNSPECIFIED,
-          acceptedAgentId: decoded.acceptedAgentId,
+          acceptedActorId: decoded.acceptedActorId,
           timestamp: decoded.timestamp
             ? timestampDate(decoded.timestamp)
             : undefined,

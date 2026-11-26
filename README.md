@@ -1,6 +1,6 @@
 # antikythera_ts
 
-The Antikythera domain model, its `compas_pb` plugin, and the browser agent runtime, for
+The Antikythera domain model, its `compas_pb` plugin, and the browser actor runtime, for
 TypeScript.
 
 This is the TypeScript counterpart of the `antikythera` Python package: the same domain
@@ -12,7 +12,7 @@ model, mapped to the same protobuf schemas, over the same wire.
   mirroring the `compas.data.Data` subclasses in `antikythera.models.tasks`.
 - **`src/models/conversions.ts`**: the `compas_pb` plugin, mirroring
   `antikythera.models.conversions`. Registers each domain class against its protobuf message.
-- **`src/agents/`**: the agent runtime, holding `Agent`, `AgentLauncher`, `Task`,
+- **`src/actors/`**: the actor runtime, holding `Actor`, `ActorLauncher`, `Task`,
   `ExecutionContext` and an MQTT transport.
 - **`src/proto/`**: generated bindings, fetched from an `antikythera` release. Nothing here
   is generated locally.
@@ -29,7 +29,7 @@ import { registerAntikytheraTypes } from "@gramaziokohler/antikythera-ts";
 registerAntikytheraTypes();
 ```
 
-`AgentLauncher` calls it for you. Call it yourself before encoding or decoding Antikythera
+`ActorLauncher` calls it for you. Call it yourself before encoding or decoding Antikythera
 messages without the launcher.
 
 After that, the unified entry points carry domain objects:
@@ -37,7 +37,7 @@ After that, the unified entry points carry domain objects:
 ```ts
 import { pbDump, pbLoadBytes } from "@gramaziokohler/compas-pb-ts";
 
-const bytes = pbDump(new TaskClaimRequest({ taskId, agentId }));
+const bytes = pbDump(new TaskClaimRequest({ taskId, actorId }));
 const message = pbLoadBytes(bytes); // a TaskClaimRequest
 ```
 
@@ -48,7 +48,9 @@ npm run proto                              # the pinned antikythera release
 npm run proto -- --from-local ../antikythera   # a local checkout
 ```
 
-The pin lives in `proto/upstream.json`. Imports of `compas_pb`'s schemas are rewritten to
+The pin lives in `proto/upstream.json`. It points at antikythera v0.6.0, the first release
+that calls agents actors; until that release is out, build the bindings from a local
+checkout of antikythera's `main` (`invoke create-class-assets` there first). Imports of `compas_pb`'s schemas are rewritten to
 `@gramaziokohler/compas-pb-ts` on fetch: protobuf-es links file descriptors by identity, so
 a vendored second copy of `compas_pb.data` would register a competing descriptor.
 

@@ -16,14 +16,14 @@ import {
   TaskState,
 } from "../models/tasks";
 import { registerAntikytheraTypes } from "../models/conversions";
-import type { Agent } from "./Agent";
+import type { Actor } from "./Actor";
 import type { MqttService } from "./MqttService";
 import { ExecutionContext } from "./ExecutionContext";
 import { Task } from "./Task";
 
 /**
- * A readable agent id, of the same shape as the Python launcher's
- * `coolname.generate_slug(4)`: "brave-red-panda-of-japan". Agents are identified by this
+ * A readable actor id, of the same shape as the Python launcher's
+ * `coolname.generate_slug(4)`: "brave-red-panda-of-japan". Actors are identified by this
  * in logs and in the UI, so it needs to be recognisable at a glance rather than unique.
  */
 function slug(value: string): string {
@@ -37,7 +37,7 @@ function slug(value: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
-function memorableAgentId(): string {
+function memorableActorId(): string {
   const name = uniqueNamesGenerator({
     dictionaries: [adjectives, colors, animals],
     length: 3,
@@ -53,26 +53,26 @@ function memorableAgentId(): string {
   return `${slug(name)}-of-${slug(place)}`;
 }
 
-export class AgentLauncher {
-  private static instance: AgentLauncher;
+export class ActorLauncher {
+  private static instance: ActorLauncher;
   private mqttService: MqttService;
-  private agents: Map<string, Agent> = new Map();
+  private actors: Map<string, Actor> = new Map();
 
-  private agentId: string;
+  private actorId: string;
   private pendingClaims: Map<string, TaskAssignmentMessage> = new Map();
   private activeTasks: Map<string, TaskAssignmentMessage> = new Map();
   private activeContexts: Map<string, ExecutionContext> = new Map();
   private messageHandlerCleanup: (() => void) | undefined;
 
-  private constructor(mqttService: MqttService, agentId?: string) {
+  private constructor(mqttService: MqttService, actorId?: string) {
     // Nothing crosses the wire until Antikythera's types are registered with the
     // compas_pb runtime; there is no entry-point discovery in JavaScript.
     registerAntikytheraTypes();
 
     this.mqttService = mqttService;
-    this.agentId = agentId ?? memorableAgentId();
+    this.actorId = actorId ?? memorableActorId();
 
-    console.log(`Initializing Agent Launcher ${this.agentId}`);
+    console.log(`Initializing Actor Launcher ${this.actorId}`);
 
     // Register message handler
     this.messageHandlerCleanup = this.mqttService.onMessage(
@@ -85,35 +85,35 @@ export class AgentLauncher {
 
   public static getInstance(
     mqttService?: MqttService,
-    agentId?: string,
-  ): AgentLauncher {
-    if (!AgentLauncher.instance) {
+    actorId?: string,
+  ): ActorLauncher {
+    if (!ActorLauncher.instance) {
       if (!mqttService) {
         throw new Error(
-          "AgentLauncher must be initialized with MqttService first",
+          "ActorLauncher must be initialized with MqttService first",
         );
       }
-      AgentLauncher.instance = new AgentLauncher(mqttService, agentId);
+      ActorLauncher.instance = new ActorLauncher(mqttService, actorId);
     }
-    return AgentLauncher.instance;
+    return ActorLauncher.instance;
   }
 
-  public getAgentId(): string {
-    return this.agentId;
+  public getActorId(): string {
+    return this.actorId;
   }
 
-  public registerAgent(agent: Agent) {
-    if (this.agents.has(agent.type)) {
+  public registerActor(actor: Actor) {
+    if (this.actors.has(actor.type)) {
       console.warn(
-        `Agent type ${agent.type} is already registered. Overwriting.`,
+        `Actor type ${actor.type} is already registered. Overwriting.`,
       );
     }
-    console.log(`Registering agent: ${agent.type}`);
-    this.agents.set(agent.type, agent);
+    console.log(`Registering actor: ${actor.type}`);
+    this.actors.set(actor.type, actor);
   }
 
-  public unregisterAgent(agentType: string) {
-    this.agents.delete(agentType);
+  public unregisterActor(actorType: string) {
+    this.actors.delete(actorType);
   }
 
   protected async initializeSubscriptions() {
@@ -141,13 +141,13 @@ export class AgentLauncher {
   }
 
   protected handleCompletionAck(ack: TaskCompletionAckMessage) {
-    if (ack.acceptedAgentId === this.agentId) {
+    if (ack.acceptedActorId === this.actorId) {
       return;
     }
     const context = this.activeContexts.get(ack.id);
     if (context) {
       console.warn(
-        `[${ack.id}] received ACK for ${ack.acceptedAgentId}, cancelling local execution.`,
+        `[${ack.id}] received ACK for ${ack.acceptedActorId}, cancelling local execution.`,
       );
       context.cancel();
     }
@@ -156,48 +156,48 @@ export class AgentLauncher {
   protected handleTaskStart(task: TaskAssignmentMessage) {
     if (!task.type || !task.id) return;
 
-    // Parse task type: {agent_type}.{tool_name}
-    const { agent, toolName } = this.findAgentForTaskType(task.type);
+    // Parse task type: {actor_type}.{tool_name}
+    const { actor, toolName } = this.findActorForTaskType(task.type);
 
-    if (agent && toolName) {
+    if (actor && toolName) {
       console.log(
-        `Task ${task.id} (${task.type}) matches agent ${agent.type}, tool ${toolName}. Claiming...`,
+        `Task ${task.id} (${task.type}) matches actor ${actor.type}, tool ${toolName}. Claiming...`,
       );
       this.pendingClaims.set(task.id, task);
 
       const claim = new TaskClaimRequest({
         taskId: task.id,
-        agentId: this.agentId,
+        actorId: this.actorId,
       });
       this.mqttService.publish("antikythera/task/claim", pbDump(claim));
     }
   }
 
-  private findAgentForTaskType(taskType: string): {
-    agent: Agent | null;
+  private findActorForTaskType(taskType: string): {
+    actor: Actor | null;
     toolName: string | null;
   } {
-    // Try to match registered agents
-    // We iterate over all registered agents and see if the taskType starts with the agent.type + "."
-    for (const agent of this.agents.values()) {
-      const prefix = agent.type + ".";
+    // Try to match registered actors
+    // We iterate over all registered actors and see if the taskType starts with the actor.type + "."
+    for (const actor of this.actors.values()) {
+      const prefix = actor.type + ".";
       if (taskType.startsWith(prefix)) {
         const toolName = taskType.substring(prefix.length);
-        // Agents that claim every tool under their prefix (e.g. a stand-in) implement
+        // Actors that claim every tool under their prefix (e.g. a stand-in) implement
         // canHandleTool instead of one method per tool.
-        const handlesTool = agent.canHandleTool
-          ? agent.canHandleTool(toolName)
-          : typeof agent[toolName] === "function";
+        const handlesTool = actor.canHandleTool
+          ? actor.canHandleTool(toolName)
+          : typeof actor[toolName] === "function";
         if (handlesTool) {
-          return { agent, toolName };
+          return { actor, toolName };
         }
       }
     }
-    return { agent: null, toolName: null };
+    return { actor: null, toolName: null };
   }
 
   protected async handleTaskAllocation(allocation: TaskAllocationMessage) {
-    if (allocation.assignedAgentId === this.agentId) {
+    if (allocation.assignedActorId === this.actorId) {
       const taskId = allocation.taskId;
       const task = this.pendingClaims.get(taskId);
 
@@ -216,11 +216,11 @@ export class AgentLauncher {
   }
 
   protected async executeTask(task: TaskAssignmentMessage) {
-    const { agent, toolName } = this.findAgentForTaskType(task.type);
+    const { actor, toolName } = this.findActorForTaskType(task.type);
 
-    if (!agent || !toolName) {
+    if (!actor || !toolName) {
       console.error(
-        `Could not find agent/tool for allocated task ${task.type}`,
+        `Could not find actor/tool for allocated task ${task.type}`,
       );
       this.completeTask(task.id, null, TaskState.FAILED);
       return;
@@ -234,13 +234,13 @@ export class AgentLauncher {
       // Create Task instance
       const taskInstance = new Task(task);
 
-      // Invoke tool. Agents with no method named after the tool (i.e. those that matched
+      // Invoke tool. Actors with no method named after the tool (i.e. those that matched
       // via canHandleTool) are invoked generically through invokeTool instead.
-      console.log(`Invoking ${agent.type}.${toolName} for task ${task.id}`);
+      console.log(`Invoking ${actor.type}.${toolName} for task ${task.id}`);
       const result =
-        typeof agent[toolName] === "function"
-          ? await agent[toolName](taskInstance, context)
-          : await agent.invokeTool!(toolName, taskInstance, context);
+        typeof actor[toolName] === "function"
+          ? await actor[toolName](taskInstance, context)
+          : await actor.invokeTool!(toolName, taskInstance, context);
 
       // If cancelled, we might not want to report success
       if (context.isCancelled) {
@@ -268,7 +268,7 @@ export class AgentLauncher {
     const completion = new TaskCompletionMessage({
       id: taskId,
       state,
-      agentId: this.agentId,
+      actorId: this.actorId,
       outputs: outputs && typeof outputs === "object" ? outputs : {},
     });
 
@@ -277,7 +277,7 @@ export class AgentLauncher {
   }
 
   public dispose() {
-    console.log(`Disposing Agent Launcher ${this.agentId}`);
+    console.log(`Disposing Actor Launcher ${this.actorId}`);
     if (this.messageHandlerCleanup) {
       this.messageHandlerCleanup();
     }

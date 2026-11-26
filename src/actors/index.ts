@@ -1,5 +1,5 @@
-export * from "./Agent";
-export * from "./AgentLauncher";
+export * from "./Actor";
+export * from "./ActorLauncher";
 export * from "./ExecutionContext";
 export * from "./MqttService";
 export * from "./Task";
